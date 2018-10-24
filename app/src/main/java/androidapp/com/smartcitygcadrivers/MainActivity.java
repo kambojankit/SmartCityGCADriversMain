@@ -97,29 +97,18 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mFirebaseAuth.getCurrentUser();
                             Toast.makeText(MainActivity.this, user.getDisplayName() +
                                     " Signed In ", Toast.LENGTH_SHORT).show();
-                            if (isRegistered()) {
-
-                            } else {
-
-                            }
-
+                           Intent routeIntent = new Intent(MainActivity.this, RouteActivity.class);
+                           startActivity(routeIntent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("MainActivity", "signInWithCredential:failure",
                                     task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-    
+
                         }
                     }
                 });
     }
 
-    /***
-     * to check if user has registered his pickup details or not
-     * @return boolean
-     */
-    private boolean isRegistered() {
-       return false;
-    }
 }
