@@ -1,7 +1,9 @@
 package androidapp.com.smartcitygcadrivers;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class RouteActivity extends AppCompatActivity {
@@ -15,7 +17,32 @@ public class RouteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
         setRouteButtons();
+        routeButtonSlot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calls getRoutes here and calls the MapActivity
+                Intent intentRouteOne = new Intent(RouteActivity.this, MapActivity.class);
+                startActivity(intentRouteOne);
+            }
+        });
 
+        routeButtonSlot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calls getRoutes here and calls the MapActivity
+                Intent intentRouteTwo = new Intent(RouteActivity.this, MapActivity.class);
+                startActivity(intentRouteTwo);
+            }
+        });
+
+        routeButtonSlot3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calls getRoutes here and calls the MapActivity
+                Intent intentRouteThree = new Intent(RouteActivity.this, MapActivity.class);
+                startActivity(intentRouteThree);
+            }
+        });
     }
 
     private void setRouteButtons() {
