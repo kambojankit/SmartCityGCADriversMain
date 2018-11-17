@@ -1,9 +1,11 @@
 package androidapp.com.smartcitygcadrivers;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +17,14 @@ import com.tomtom.online.sdk.map.Chevron;
 import com.tomtom.online.sdk.map.ChevronBuilder;
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.MapFragment;
+import com.tomtom.online.sdk.map.Marker;
 import com.tomtom.online.sdk.map.MarkerBuilder;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
 import com.tomtom.online.sdk.map.Route;
 import com.tomtom.online.sdk.map.RouteBuilder;
 import com.tomtom.online.sdk.map.SimpleMarkerBalloon;
 import com.tomtom.online.sdk.map.TomtomMap;
+import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.routing.OnlineRoutingApi;
 import com.tomtom.online.sdk.routing.RoutingApi;
 import com.tomtom.online.sdk.routing.data.FullRoute;
@@ -66,6 +70,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // create route method
                 drawRoute(departurePosition, destinationPosition);
 //                startTracking();
+                addMarker();
             }
         });
 
@@ -77,8 +82,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         this.tomtomMap.setMyLocationEnabled(true);
         Location userLocation = tomtomMap.getUserLocation();
         LatLng amsterdam = new LatLng(52.37, 4.90);
-        SimpleMarkerBalloon balloon = new SimpleMarkerBalloon("MyLocation");
+        SimpleMarkerBalloon balloon = new SimpleMarkerBalloon(" ");
         this.tomtomMap.addMarker(new MarkerBuilder(amsterdam).markerBalloon(balloon));
+        this.tomtomMap.addOnMarkerClickListener(new TomtomMapCallback.OnMarkerClickListener() {
+            @Override
+            public void onMarkerClick(@NonNull Marker marker) {
+                //Toast.makeText(MapActivity.this, "i clicked the marker", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MapActivity.this);
+                builder1.setMessage("Pickup Done ?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
         this.tomtomMap.centerOn(CameraPosition.builder(amsterdam).zoom(15).build());
     }
 
@@ -113,7 +146,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void drawRoute(LatLng start, LatLng stop) {
-        LatLng[] latLngs = {wayPoints};
+        LatLng[] latLngs = {wayPoints, new LatLng(18.5570, 73.9302), new LatLng(18.5622, 73.9166)};
         drawRouteWithWayPoints(start, stop, latLngs);
     }
 
@@ -145,6 +178,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         clearMap();
                     }
                 });
+    }
+
+    private void addMarker() {
+        LatLng[] markerLatLong = {wayPoints, new LatLng(18.5570, 73.9302), new LatLng(18.5622, 73.9166)};
+        for (int i = 0; i < markerLatLong.length; i++) {
+            SimpleMarkerBalloon balloon = new SimpleMarkerBalloon("Home 1");
+            this.tomtomMap.addMarker(new MarkerBuilder(markerLatLong[i]).markerBalloon(balloon));
+        }
     }
 
     private void showDialogInProgress() {
