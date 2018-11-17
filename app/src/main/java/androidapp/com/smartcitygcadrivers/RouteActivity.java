@@ -39,6 +39,7 @@ public class RouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // calls getRoutes here and calls the MapActivity
+                // TODO: 13/11/18 check if route for time slot available or not then moving ahead.
                 Intent intentRouteThree = new Intent(RouteActivity.this, MapActivity.class);
                 startActivity(intentRouteThree);
             }
